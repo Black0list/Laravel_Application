@@ -7,12 +7,13 @@
 
 > Aussi j'ai fai la connection  avec la base de donnees ``PostgreSql`` en modifiant `.env` File
 
-> Ajouter un Vue (ajouter un Route) : 
-- Requets Route Disponible : 
-> -Route:get($uri, $callback);<br>-Route:post($uri, $callback);<br>Same for put, delete, patch, options , aussi Route::match => les routes li katmatchi les route mathodes. Routes::match(['get', 'post'],$uri, $callback)
-
+> Ajouter un Vue (ajouter un Route) : <br>
 >``Route::view('/about', 'about')`` Aussi Passation des parametres ``Route::get('/contact/{name}', function (string $name) {
     return view('contact', ['name' => $name]);
 });``
+- Requets Route Disponible : 
+> -Route:get($uri, $callback);<br>-Route:post($uri, $callback);<br>Same for put, delete, patch, options , aussi Route::match => les routes li katmatchi les route mathodes. Routes::match(['get', 'post'],$uri, $callback)
+
+
 
 
