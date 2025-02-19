@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Room extends Model
+class Reservation extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'people',
-        'price',
+        'user_id',
+        'room_id',
+        'start_date',
+        'end_date',
+        'status',
     ];
 }

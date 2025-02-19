@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Route::view('/about', 'about');
 
-Route::get('/contact/{name}', function (string $name) {
-    return view('contact', ['name' => $name]);
-});
+//Route::get('/contact', function () {
+//     echo __DIR__;
+//     return;
+//});
