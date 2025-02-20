@@ -28,5 +28,8 @@
 - One to Many
 - Many to Many
 
->
+## **`02/20/2025`**
+> Comment faire le CRUD , aussi comment fire authetification avec vaalidation :
+> et comment retourner les erreurs s'il ya un emaail deja existe oulemot de passe et incorrecte.
+> j'ai appris aussi comment utiliser le pckage ` laravel/breeze ` pour l'authentification => was a good day :)
 

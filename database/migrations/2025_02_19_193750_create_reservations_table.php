@@ -15,11 +15,10 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade');
-            $table->date('date');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->foreignId('user_id')->constrained()->onUpdate('no action')->onDelete('cascade');
+            $table->foreignId('room_id')->constrained()->onUpdate('no action')->onDelete('cascade');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
