@@ -23,4 +23,11 @@ class UserController extends Controller
         ]);
         return redirect('/users');
     }
+
+    public function delete(User $user)
+    {
+        $user->delete();
+
+        return redirect('/users');
+    }
 }

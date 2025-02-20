@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Termwind\Components\Raw;
 
 class RoomController extends Controller
 {
@@ -24,10 +25,32 @@ class RoomController extends Controller
         return redirect('/rooms');
     }
 
-    public function delete(Request $request)
+    public function delete(Room $room)
     {
-        echo "dawd";
-        dd($request['id']);
-        $room = Room::find($request['id']);
+        $room->delete();
+        return redirect('/rooms');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $room = Room::findOrFail($id);
+
+        $room->update([
+            'name' => $request['name'],
+            'people' => $request['capacity'],
+            'price' => $request['price']
+        ]);
+
+        return redirect('/rooms')->with('success', 'Room updated successfully!');
+    }
+
+    public function getRoom(Room $room)
+    {
+        return view('pages.roomEdit', compact('room'));
+    }
+
+    public function show(Room $room)
+    {
+        return view('pages.room', compact('room'));
     }
 }

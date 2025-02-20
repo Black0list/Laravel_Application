@@ -30,13 +30,17 @@ Route::get('/register', function () {
 
 //================================= ROOMS ===================================
 Route::get('/rooms', [RoomController::class, 'index']);
+Route::get('/rooms/{room}', [RoomController::class, 'show']);
 Route::post('/rooms/create', [RoomController::class, 'create']);
-Route::get('/rooms/delete/{room}', [RoomController::class, 'delete']);
+Route::put('/rooms/update/{room}', [RoomController::class, 'update']);
+Route::delete('/rooms/delete/{room}', [RoomController::class, 'delete']);
+Route::get('/rooms/update/{room}', [RoomController::class, 'getRoom']);
 
 
 //================================= USERS ===================================
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users/create', [UserController::class, 'create']);
+Route::delete('/users/delete/{user}', [UserController::class, 'delete']);
 
 
 //================================= ROLES ===================================

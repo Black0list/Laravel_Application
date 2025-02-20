@@ -230,6 +230,12 @@
     </style>
 </head>
 <body>
+@if (session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+@endif
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
@@ -241,7 +247,7 @@
                 </div>
             </div>
             <nav class="nav flex-column">
-                <a href="#" class="nav-link active rounded mb-2" onclick="setActive(this)">
+                <a href="#" class="nav-link rounded mb-2" onclick="setActive(this)">
                     <i class="bi bi-house-door me-2"></i>Tableau de bord
                 </a>
                 <a href="/users" class="nav-link mb-2" onclick="setActive(this)">
@@ -339,103 +345,40 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    function toggleDarkMode() {
-        const body = document.body;
-        const modeIcon = document.getElementById("mode-icon");
+  function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
+    }
 
-        body.classList.toggle("dark-mode");
+    function setActive(element) {
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        element.classList.add('active');
+        localStorage.setItem('active-item', element.getAttribute('href'));
+    }
 
-        // Change the icon based on the mode
-        if (body.classList.contains("dark-mode")) {
-            modeIcon.textContent = "☀️"; // Sun icon for light mode
-        } else {
-            modeIcon.textContent = "🌙"; // Moon icon for dark mode
+    document.addEventListener("DOMContentLoaded", () => {
+        if (localStorage.getItem('dark-mode') === 'true') {
+            document.body.classList.add('dark-mode');
         }
+        const activeItem = localStorage.getItem('active-item');
+        if (activeItem) {
+            document.querySelector(`.nav-link[href='${activeItem}']`)?.classList.add('active');
+        }
+
+        const isDarkMode = localStorage.getItem("dark-mode") === "enabled";
+    if (isDarkMode) {
+        updateModalDarkMode(newDarkModeState);
     }
 
-    // Function to set active state for navigation links
-    function setActive(link) {
-        const navLinks = document.querySelectorAll(".nav-link");
-        navLinks.forEach((navLink) => navLink.classList.remove("active"));
-        link.classList.add("active");
-    }
+    document.getElementById("toggle-dark-mode").addEventListener("click", function () {
+        document.querySelector(".modal-content").classList.toggle("bg-dark");
+        document.querySelector(".modal-content").classList.toggle("text-white");
 
-
-    //
-    // const projectsChart = new Chart(document.getElementById('projectsChart'), {
-    //     type: 'bar',
-    //     data: {
-    //         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-    //         datasets: [{
-    //             label: 'Projets',
-    //             data: [12, 19, 3, 5, 2],
-    //             backgroundColor: '#6c5ce7',
-    //             borderColor: '#6c5ce7',
-    //             borderWidth: 1
-    //         }]
-    //     },
-    //     options: {
-    //         scales: {
-    //             y: {
-    //                 beginAtZero: true
-    //             }
-    //         }
-    //     }
-    // });
-    //
-    // const statsChart = new Chart(document.getElementById('statsChart'), {
-    //     type: 'pie',
-    //     data: {
-    //         labels: ['Completed', 'In Progress', 'Pending'],
-    //         datasets: [{
-    //             label: 'Statistiques',
-    //             data: [60, 25, 15],
-    //             backgroundColor: ['#28a745', '#ffc107', '#e74c3c']
-    //         }]
-    //     }
-    // });
-    //
-    // const usersChart = new Chart(document.getElementById('usersChart'), {
-    //     type: 'line',
-    //     data: {
-    //         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-    //         datasets: [{
-    //             label: 'Utilisateurs',
-    //             data: [50, 100, 150, 200, 250],
-    //             backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    //             borderColor: 'rgba(255, 99, 132, 1)',
-    //             borderWidth: 1
-    //         }]
-    //     },
-    //     options: {
-    //         scales: {
-    //             y: {
-    //                 beginAtZero: true
-    //             }
-    //         }
-    //     }
-    // });
-    //
-    // const salesChart = new Chart(document.getElementById('salesChart'), {
-    //     type: 'line',
-    //     data: {
-    //         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-    //         datasets: [{
-    //             label: 'Ventes (€)',
-    //             data: [500, 1000, 1500, 2000, 5000],
-    //             backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    //             borderColor: 'rgba(255, 99, 132, 1)',
-    //             borderWidth: 1
-    //         }]
-    //     },
-    //     options: {
-    //         scales: {
-    //             y: {
-    //                 beginAtZero: true
-    //             }
-    //         }
-    //     }
-    // });
+        localStorage.setItem("dark-mode", 
+            document.body.classList.contains("dark-mode") ? "enabled" : "disabled"
+        );
+    });
+    });
 
 </script>
 <!-- Custom JS -->
