@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Termwind\Components\Raw;
 
@@ -27,8 +29,11 @@ class RoomController extends Controller
 
     public function delete(Room $room)
     {
-        $room->delete();
-        return redirect('/rooms');
+        try {
+            $room->delete();
+        }catch (\Exception $exception){
+            return redirect('/rooms')->with('failed', 'Room is related to many reservations, cant be deleted for the moment');
+        }
     }
 
     public function update(Request $request, $id)
@@ -46,11 +51,13 @@ class RoomController extends Controller
 
     public function getRoom(Room $room)
     {
-        return view('pages.roomEdit', compact('room'));
+        return view('pages.room_edit', compact('room'));
     }
 
     public function show(Room $room)
     {
         return view('pages.room', compact('room'));
     }
+
+
 }

@@ -3,7 +3,7 @@
 @section('content')
 <div class="card p-4 shadow-lg" style="width: 400px;">
     <h3 class="text-center">Register</h3>
-    <form id="registerForm" method="POST" action="/users/create" novalidate>
+    <form id="registerForm" method="POST" action="/admin/user/create" novalidate>
         @csrf
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>

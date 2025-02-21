@@ -3,7 +3,11 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,40 +20,60 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
-Route::view('/dashboard', 'layouts.dashboard');
+//================================= VIEWS ===================================
+Route::get('/', [Controller::class, 'stats']);
 Route::view('/login', 'auth.login');
 Route::view('/home', 'pages.home');
 Route::get('/register', function () {
     return view('auth.register');
 });
 
+Route::get('/admin/stats', [Controller::class, 'stats']);
+
 
 //================================= ROOMS ===================================
 Route::get('/rooms', [RoomController::class, 'index']);
-Route::get('/rooms/{room}', [RoomController::class, 'show']);
-Route::post('/rooms/create', [RoomController::class, 'create']);
-Route::put('/rooms/update/{room}', [RoomController::class, 'update']);
-Route::delete('/rooms/delete/{room}', [RoomController::class, 'delete']);
-Route::get('/rooms/update/{room}', [RoomController::class, 'getRoom']);
+Route::get('/room/{room}', [RoomController::class, 'show']);
+
+Route::post('/admin/room/create', [RoomController::class, 'create']);
+Route::put('/admin/room/update/{room}', [RoomController::class, 'update']);
+Route::delete('/admin/room/delete/{room}', [RoomController::class, 'delete']);
+Route::get('/admin/room/get/{room}', [RoomController::class, 'getRoom']);
+
+Route::post('/room/book', [ReservationController::class, 'book']);
 
 
 //================================= USERS ===================================
-Route::get('/users', [UserController::class, 'index']);
-Route::post('/users/create', [UserController::class, 'create']);
-Route::delete('/users/delete/{user}', [UserController::class, 'delete']);
+Route::get('/admin/users', [UserController::class, 'index']);
+Route::post('/admin/user/create', [UserController::class, 'create']);
+Route::delete('/admin/user/delete/{user}', [UserController::class, 'delete']);
+Route::put('/admin/user/update/{user}', [UserController::class, 'update']);
+Route::get('/admin/user/get/{user}', [UserController::class, 'getUser']);
 
 
 //================================= ROLES ===================================
-Route::get('/roles', [\App\Http\Controllers\RoleController::class, 'index']);
-Route::get('/roles/create', [\App\Http\Controllers\RoleController::class, 'create']);
+Route::get('/admin/roles', [RoleController::class, 'index']);
+Route::get('/admin/role/create', [RoleController::class, 'create']);
+Route::delete('/admin/role/delete/{role}', [RoleController::class, 'delete']);
+Route::put('/admin/role/update/{role}', [RoleController::class, 'update']);
+Route::get('/admin/role/get/{role}', [RoleController::class, 'getRole']);
 
 
 
-///
+//================================= RESERVATIONS ===================================
+Route::get('/admin/reservations', [ReservationController::class, 'index']);
+
+
+
+
+
+
+
+/////////////
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

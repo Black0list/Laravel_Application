@@ -17,10 +17,24 @@
                     <p class="text-muted">{{ $room->people }} People</p>
                 </div>
                 <div class="col-md-4">
-                    <h5><i class="bi bi-currency-dollar"></i>Price</h5>
+                    <h5><i class="bi bi-currency-dollar"></i> Price</h5>
                     <p class="text-muted">${{ $room->price }}</p>
                 </div>
             </div>
+
+            <form action="{{ url('/room/book') }}" method="POST" style="display:inline;">
+                @csrf
+                <input type="hidden" class="form-control" id="user" name="user" value="{{ Auth::user()->id }}">
+                <input type="hidden" class="form-control" id="room" name="room" value="{{ $room->id }}">
+                <label for="start_date">Start Date</label>
+                <input type="datetime-local" class="form-control" id="start_date" name="start_date" value="{{ date('Y-m-d\TH:i') }}">
+                <label for="end_date">End Date</label>
+                <input type="datetime-local" class="form-control" id="end_date" name="end_date" value="{{ date('Y-m-d\TH:i') }}">
+                <br>
+                <button type="submit" class="btn btn-sm btn-primary">
+                    <i class="bi bi-book"></i> Book
+                </button>
+            </form>
         </div>
     </div>
 </div>

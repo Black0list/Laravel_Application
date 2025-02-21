@@ -12,39 +12,30 @@
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
+            <div class="modal-content bg-light text-dark dark-mode">
+                <div class="modal-header border-0">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="registerForm" method="POST" action="/rooms/create" novalidate>
+                    <form id="registerForm" method="POST" action="/admin/room/create" novalidate>
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="name" value="{{ old('email') }}" id="name" required>
-                            @if ($errors->has('name'))
-                            <span class="text-danger">{{ $errors->first('name') }}</span>
-                            @endif
+                            <input type="text" class="form-control" name="name" id="name" required>
                         </div>
                         <div class="mb-3">
                             <label for="capacity" class="form-label">Capacity</label>
-                            <input type="number" class="form-control" name="capacity" value="{{ old('capacity') }}" id="capacity" required>
-                            @if ($errors->has('capacity'))
-                            <span class="text-danger">{{ $errors->first('capacity') }}</span>
-                            @endif
+                            <input type="number" class="form-control" name="capacity"  id="capacity" required>
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
-                            <input type="number" class="form-control" name="price" value="{{ old('price') }}" id="price" required minlength="6">
-                            @if ($errors->has('price'))
-                            <span class="text-danger">{{ $errors->first('price') }}</span>
-                            @endif
+                            <input type="number" class="form-control" name="price"  id="price" required minlength="6">
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">create</button>
+                        <button type="submit" class="btn btn-primary w-100">Create</button>
                     </form>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -79,19 +70,11 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ url('/roles/' . $role->id) }}" class="btn btn-sm btn-info">
-                            <i class="bi bi-eye"></i> View
+                        <a href="{{ url('/admin/role/get/' . $role->id) }}" class="btn btn-sm btn-warning">
+                            <i class="bi bi-pencil"></i> Update
                         </a>
 
-                        <form action="{{ url('/roles/update/' . $role->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="btn btn-sm btn-warning">
-                                <i class="bi bi-pencil"></i> Edit
-                            </button>
-                        </form>
-
-                        <form action="{{ url('/roles/delete/' . $role->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ url('/admin/role/delete/' . $role->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger">

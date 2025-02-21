@@ -236,6 +236,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 @endif
+@if (session('failed'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('failed') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
@@ -247,19 +253,19 @@
                 </div>
             </div>
             <nav class="nav flex-column">
-                <a href="#" class="nav-link rounded mb-2" onclick="setActive(this)">
+                <a href="/admin/stats" class="nav-link rounded mb-2" onclick="setActive(this)">
                     <i class="bi bi-house-door me-2"></i>Tableau de bord
                 </a>
-                <a href="/users" class="nav-link mb-2" onclick="setActive(this)">
+                <a href="/admin/users" class="nav-link mb-2" onclick="setActive(this)">
                     <i class="bi bi-briefcase me-2"></i>Users
                 </a>
-                <a href="/roles" class="nav-link mb-2" onclick="setActive(this)">
+                <a href="/admin/roles" class="nav-link mb-2" onclick="setActive(this)">
                     <i class="bi bi-tags me-2"></i>Roles
                 </a>
                 <a href="/rooms" class="nav-link mb-2" onclick="setActive(this)">
                     <i class="bi bi-folder me-2"></i>Rooms
                 </a>
-                <a href="/reservations" class="nav-link mb-2" onclick="setActive(this)">
+                <a href="/admin/reservations" class="nav-link mb-2" onclick="setActive(this)">
                     <i class="bi bi-star me-2"></i>Reservations
                     <span class="badge bg-danger ms-2">3</span>
                 </a>
@@ -284,44 +290,6 @@
                 </div>
             </div>
 
-            <!-- Statistics Cards -->
-            <div class="row g-4">
-                <div class="col-md-3 col-sm-6">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-clipboard-data me-2"></i>Projets Totaux</h5>
-                            <h2 class="card-text text-primary">24</h2>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-pie-chart me-2"></i>Statistiques</h5>
-                            <h2 class="card-text text-success">15%</h2>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-person-circle me-2"></i>Utilisateurs</h5>
-                            <h2 class="card-text text-warning">240</h2>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-bar-chart-line me-2"></i>Ventes</h5>
-                            <h2 class="card-text text-danger">€5000</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="card-body  bg-body-secondary mt-3 rounded">
                 <div class="center">
                     @yield('content')
@@ -374,7 +342,7 @@
         document.querySelector(".modal-content").classList.toggle("bg-dark");
         document.querySelector(".modal-content").classList.toggle("text-white");
 
-        localStorage.setItem("dark-mode", 
+        localStorage.setItem("dark-mode",
             document.body.classList.contains("dark-mode") ? "enabled" : "disabled"
         );
     });
