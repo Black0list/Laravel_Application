@@ -44,6 +44,7 @@ Route::put('/admin/room/update/{room}', [RoomController::class, 'update']);
 Route::delete('/admin/room/delete/{room}', [RoomController::class, 'delete']);
 Route::get('/admin/room/get/{room}', [RoomController::class, 'getRoom']);
 
+Route::get('/admin/room/validation/{reservation}', [ReservationController::class, 'setStatus']);
 Route::post('/room/book', [ReservationController::class, 'book']);
 
 
@@ -57,7 +58,7 @@ Route::get('/admin/user/get/{user}', [UserController::class, 'getUser']);
 
 //================================= ROLES ===================================
 Route::get('/admin/roles', [RoleController::class, 'index']);
-Route::get('/admin/role/create', [RoleController::class, 'create']);
+Route::post('/admin/role/create', [RoleController::class, 'create']);
 Route::delete('/admin/role/delete/{role}', [RoleController::class, 'delete']);
 Route::put('/admin/role/update/{role}', [RoleController::class, 'update']);
 Route::get('/admin/role/get/{role}', [RoleController::class, 'getRole']);
@@ -66,15 +67,14 @@ Route::get('/admin/role/get/{role}', [RoleController::class, 'getRole']);
 
 //================================= RESERVATIONS ===================================
 Route::get('/admin/reservations', [ReservationController::class, 'index']);
-
-
-
-
-
-
+Route::post('/admin/reservation/validation/{reservation}', [ReservationController::class, 'setStatus']);
 
 /////////////
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
+
+Route::fallback(function () {
+    return view('pages.404');
+});

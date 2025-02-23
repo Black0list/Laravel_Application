@@ -26,10 +26,11 @@ class ReservationController extends Controller
 
         $checkValidity = false;
 
-//        dd($reservation->start_date . " " . $reservation->end_date);
-        dd("daw");
-
-        if(Reservation::whereBetween('start_date', [$reservation->start_date, $reservation->end_date])->orWhereBetween('end_date', [$reservation->start_date, $reservation->end_date])->exists())
+        if(Reservation::where('room_id', $reservation->room_id)
+            ->where('start_date', '<=', $reservation->end_date)
+            ->where('end_date', '>=', $reservation->start_date)
+            ->where('status', '=', 'confirmed')
+            ->exists())
         {
             $checkValidity = true;
         }
@@ -41,9 +42,30 @@ class ReservationController extends Controller
             return redirect('/admin/reservations')->with('failed', 'Room cant be booked, is Already Booked');
         }
 
-
-
-
         return redirect('/admin/reservations')->with('success', 'Room booked successfully!');
+    }
+
+    public function setStatus(Request $request, Reservation $reservation)
+    {
+
+        $checkValidity = false;
+
+        if(Reservation::where('room_id', $reservation->room_id)
+            ->where('start_date', '<=', $reservation->end_date)
+            ->where('end_date', '>=', $reservation->start_date)
+            ->where('status', '=', 'confirmed')
+            ->exists() && $request['status'] === 'confirmed')
+        {
+            $checkValidity = true;
+        }
+
+        if(!$checkValidity)
+        {
+            $reservation->status = $request['status'];
+            $reservation->save();
+            return redirect('/admin/reservations')->with('success', 'Room status updated successfully!');
+        }
+
+        return redirect('/admin/reservations')->with('failed', 'There is already a Room with that Time Confirmed!');
     }
 }

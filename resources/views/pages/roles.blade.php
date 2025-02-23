@@ -18,19 +18,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="registerForm" method="POST" action="/admin/room/create" novalidate>
+                    <form id="registerForm" method="POST" action="/admin/role/create" novalidate>
                         @csrf
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="name" id="name" required>
+                            <label for="role_name" class="form-label">Role Name</label>
+                            <input type="text" class="form-control" name="role_name" id="role_name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="capacity" class="form-label">Capacity</label>
-                            <input type="number" class="form-control" name="capacity"  id="capacity" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="price" class="form-label">Price</label>
-                            <input type="number" class="form-control" name="price"  id="price" required minlength="6">
+                            <label for="role_description" class="form-label">Role Description</label>
+                            <input type="text" class="form-control" name="role_description" id="role_description" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Create</button>
                     </form>

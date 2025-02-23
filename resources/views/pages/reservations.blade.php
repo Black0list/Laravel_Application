@@ -10,6 +10,7 @@
                     <th scope="col">Room</th>
                     <th scope="col">Start Date</th>
                     <th scope="col">End Date</th>
+                    <th scope="col">Status</th>
                 </tr>
                 </thead>
                 <tbody class="table-light">
@@ -22,6 +23,16 @@
                         </td>
                         <td>
                             <span class="badge bg-primary">{{ $reservation->end_date }}</span>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url('/admin/reservation/validation/'. $reservation->id) }}" id="statusForm">
+                                @csrf
+                                <select class="form-select" name="status" onchange="this.form.submit()">
+                                    <option value="pending" {{$reservation->status === 'pending' ? 'selected' : ''}}>Pending</option>
+                                    <option value="confirmed" {{$reservation->status === 'confirmed' ? 'selected' : ''}}>Confirmed</option>
+                                    <option value="cancelled" {{$reservation->status === 'cancelled' ? 'selected' : ''}}>Cancelled</option>
+                                </select>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

@@ -21,7 +21,7 @@ class RoleController extends Controller
             'role_name' => $request['role_name'],
             'role_description' => $request['role_description'],
         ]);
-        return redirect('/admin/users');
+        return redirect('/admin/roles');
     }
 
     public function getRole(Role $role)

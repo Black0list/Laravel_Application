@@ -14,7 +14,14 @@
                         <label for="name" class="form-label"><i class="bi bi-house-door"></i> Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" required>
                     </div>
-
+                    <div class="mb-3">
+                        <label for="role" class="form-label"><i class="bi bi-house-door"></i>Role Name</label>
+                            <select id="role" class="form-select" name="role" >
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}" {{$role->id === $user->role_id ? 'selected' : ''}}>{{ $role->role_name }}</option>
+                                @endforeach
+                            </select>
+                    </div>
                     <div class="text-end">
                         <a href="{{ url('/users') }}" class="btn btn-secondary">Cancel</a>
                         <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Save Changes</button>

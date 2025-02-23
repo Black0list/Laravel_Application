@@ -34,6 +34,12 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        .fixed-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
         body.dark-mode {
             background-color: var(--background-dark);
             color: var(--text-dark);
@@ -249,7 +255,7 @@
             <div class="profile">
                 <img src="https://randomuser.me/api/portraits/men/51.jpg" alt="Profile">
                 <div class="name">
-
+                    {{ Auth::user()->name }}
                 </div>
             </div>
             <nav class="nav flex-column">
@@ -286,7 +292,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1>Tableau de bord</h1>
                 <div class="w-25">
-                    <input type="text" class="form-control" placeholder="Rechercher...">
+                    <input id="search" type="text" class="form-control" placeholder="Rechercher...">
                 </div>
             </div>
 
@@ -309,43 +315,41 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  function toggleDarkMode() {
+    function toggleDarkMode() {
         document.body.classList.toggle('dark-mode');
         localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
     }
 
-    function setActive(element) {
-        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-        element.classList.add('active');
-        localStorage.setItem('active-item', element.getAttribute('href'));
-    }
+    // function setActive(element) {
+    //     document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    //     element.classList.add('active');
+    //     localStorage.setItem('active-item', element.getAttribute('href'));
+    // }
 
     document.addEventListener("DOMContentLoaded", () => {
         if (localStorage.getItem('dark-mode') === 'true') {
             document.body.classList.add('dark-mode');
         }
-        const activeItem = localStorage.getItem('active-item');
-        if (activeItem) {
-            document.querySelector(`.nav-link[href='${activeItem}']`)?.classList.add('active');
-        }
+        // const activeItem = localStorage.getItem('active-item');
+        // if (activeItem) {
+        //     document.querySelector(`.nav-link[href='${activeItem}']`)?.classList.add('active');
+        // }
 
         const isDarkMode = localStorage.getItem("dark-mode") === "enabled";
-    if (isDarkMode) {
-        updateModalDarkMode(newDarkModeState);
-    }
+        if (isDarkMode) {
+            updateModalDarkMode(newDarkModeState);
+        }
 
-    document.getElementById("toggle-dark-mode").addEventListener("click", function () {
-        document.querySelector(".modal-content").classList.toggle("bg-dark");
-        document.querySelector(".modal-content").classList.toggle("text-white");
+        document.getElementById("toggle-dark-mode").addEventListener("click", function () {
+            document.querySelector(".modal-content").classList.toggle("bg-dark");
+            document.querySelector(".modal-content").classList.toggle("text-white");
 
-        localStorage.setItem("dark-mode",
-            document.body.classList.contains("dark-mode") ? "enabled" : "disabled"
-        );
-    });
+            localStorage.setItem("dark-mode",
+                document.body.classList.contains("dark-mode") ? "enabled" : "disabled"
+            );
+        });
     });
 
 </script>

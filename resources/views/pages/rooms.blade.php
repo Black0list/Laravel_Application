@@ -18,8 +18,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="registerForm" method="POST" action="/admin/room/create" novalidate>
+                    <form id="registerForm" method="POST" action="/admin/room/create" enctype="multipart/form-data" novalidate>
                         @csrf
+                        <div class="input-group mb-3 border-2">
+                            <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                            <input type="file" name="image" class="form-control" id="inputGroupFile01">
+                        </div>
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" name="name" id="name" required>
@@ -29,7 +33,7 @@
                             <input type="number" class="form-control" name="capacity"  id="capacity" required>
                         </div>
                         <div class="mb-3">
-                            <label for="price" class="form-label">Price</label>
+                            <label for="price" class="form-label">$ Price</label>
                             <input type="number" class="form-control" name="price"  id="price" required minlength="6">
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Create</button>
@@ -47,30 +51,30 @@
         <p class="card-text">No rooms available.</p>
         @else
         @foreach($rooms as $room)
-        <div class="card" style="width: 300px;">
-            <img src="https://www.frontsigns.com/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2022/01/conference-room-design-.jpg.webp" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-text">Room Name : {{ $room->name }}</h5>
-                <p class="card-title">Capacity : {{ $room->people }}</p>
-                <p class="card-title">Price : ${{ $room->price }}</p>
+                <div class="card" style="width: 300px;">
+                    <img src="{{ Storage::url($room->image) }}" class="card-img-top fixed-image" alt="Room Image">
+                    <div class="card-body">
+                        <h5 class="card-text">Room Name: {{ $room->name }}</h5>
+                        <p class="card-title">Capacity: {{ $room->people }}</p>
+                        <p class="card-title">Price: ${{ $room->price }}</p>
 
-                <a href="{{ url('/room/' . $room->id) }}" class="btn btn-sm btn-info">
-                    <i class="bi bi-eye"></i> View
-                </a>
+                        <a href="{{ url('/room/' . $room->id) }}" class="btn btn-sm btn-info">
+                            <i class="bi bi-eye"></i> View
+                        </a>
 
-                <a href="{{ url('/admin/room/get/' . $room->id) }}" class="btn btn-sm btn-warning">
-                    <i class="bi bi-pencil"></i> Edit
-                </a>
+                        <a href="{{ url('/admin/room/get/' . $room->id) }}" class="btn btn-sm btn-warning">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
 
-                <form action="{{ url('/admin/room/delete/' . $room->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        <i class="bi bi-trash"></i> Delete
-                    </button>
-                </form>
-            </div>
-        </div>
+                        <form action="{{ url('/admin/room/delete/' . $room->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
         @endforeach
         @endif
     </div>

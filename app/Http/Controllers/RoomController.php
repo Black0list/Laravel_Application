@@ -18,14 +18,24 @@ class RoomController extends Controller
 
     public function create(Request $request)
     {
+//        dd($request['image']);
+        $request->validate([
+            'image' => 'required|file|mimes:jpg,png|max:2048',
+        ]);
+        $extension = $request->file('image')->getClientOriginalExtension();
+        $filename = 'room_' . time() .'.'. $extension;
+        $path = $request->file('image')->storeAs('uploads', $filename,'public');
+
         Room::create([
-            'name' => $request['name'],
-            'people' => $request['capacity'],
-            'price' => $request['price'],
+            'image' => $path,
+            'name' => $request->name,
+            'people' => $request->capacity,
+            'price' => $request->price,
         ]);
 
         return redirect('/rooms');
     }
+
 
     public function delete(Room $room)
     {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,14 +18,22 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
+
+        $roleId = Role::whereRaw('LOWER(role_name) = ?', 'client')->first()->id;
+
+        if (!$roleId) {
+            $role = Role::create(['role_name' => 'client', 'role_description' => ' ']);
+            $roleId = $role->id;
+        }
+
         $user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
-            'role_id' => 1,
+            'role_id' => $roleId,
         ]);
 
-        Auth::login($user);
+//        Auth::login($user);
         return redirect('/admin/users');
     }
 
@@ -39,7 +48,8 @@ class UserController extends Controller
 
     public function getUser(User $user)
     {
-        return view('pages.user_edit', compact('user'));
+        $roles = Role::all();
+        return view('pages.user_edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, $id)
@@ -48,8 +58,9 @@ class UserController extends Controller
 
         $room->update([
             'name' => $request['name'],
+            'role_id' => $request['role'],
         ]);
 
-        return redirect('/admin/users')->with('success', 'User Name updated successfully!');
+        return redirect('/admin/users')->with('success', 'User updated successfully!');
     }
 }

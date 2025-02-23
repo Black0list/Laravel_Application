@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +18,19 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
+        $roleId = Role::whereRaw('LOWER(role_name) = ?', 'client')->first()->id;
+
+        if (!$roleId) {
+            $role = Role::create(['role_name' => 'client', 'role_description' => ' ']);
+            $roleId = $role->id;
+        }
+
 
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['password']),
+            'role_id' => $roleId
         ]);
 
         return redirect('/login');
@@ -46,7 +55,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/dashboard');
+        return redirect('/rooms');
     }
 
     public function logout()
